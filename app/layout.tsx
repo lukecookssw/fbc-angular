@@ -34,7 +34,7 @@ export default function RootLayout({
           <div className="flex flex-col flex-grow">
             <Header />
             {/* TODO: Remove the fixed height from the main element */}
-            <main className="p-4 flex-grow min-h-[calc(100vh-64px)]" style={{ height: "4000px" }}>
+            <main className="p-4 flex-grow min-h-[calc(100vh-64px)]">
               {children}
             </main>
           </div>

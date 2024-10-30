@@ -1,0 +1,193 @@
+# Overview
+
+In this lesson, we will create a `CompanyListComponent` and discuss components and Angular module structure.
+
+### Learning Outcomes
+
+- How to use the CLI generate commands
+- Understand the main parts of a component
+- Understand the main parts of an Angular module
+- Understand basic data binding and Angular directives
+
+# Generate a new CompanyListComponent
+
+- Make a new `CompanyListComponent` with the CLI by running the following command in the terminal:
+
+#### Note: it will make the parent company folder if it does not exist.
+
+```
+ng generate component company/company-list --skip-tests
+```
+
+- Open `app.component.html` and replace the existing HTML with the `CompanyListComponent`'s selector. This will then render our new company list component on the app component.
+
+**src/app/app.component.html**
+
+```
+<fbc-company-list></fbc-company-list>
+```
+
+⚠️ You should get an error because we haven’t loaded the component yet – we need to because we use Standalone Components.
+
+- Open `app.component.ts` and import the CompanyListComponent's component.
+
+**src/app/app.component.ts**
+```
+import { CompanyListComponent } from './company/company-list/company-list.component';
+
+...
+
+imports: [CompanyListComponent],
+```
+
+# CompanyList - Load the companies
+
+We are going to update the company-list component to load an array of properties when the component is initialised and assign them to a property of the component called `companies`.
+
+- Update the company-list component to reflect the below changes
+
+**src/app/company/company-list/company-list.component.ts**
+
+```
+import { Component } from '@angular/core';
+@Component({
+  selector: 'fbc-company-list',
+  standalone: true,
+  templateUrl: './company-list.component.html',
+  styleUrl: './company-list.component.scss'
+})
+export class CompanyListComponent {
+  companies: any = [];
+
+  constructor() { }
+
+  ngOnInit() {
+    this.getCompanies();
+  }
+
+  getCompanies() {
+    this.companies = [
+      { name: 'company 1', email: 'email 1', phone: 111 },
+      { name: 'company 2', email: 'email 2', phone: 111 }
+    ];
+  }
+}
+```
+
+#### In the above code we...
+
+- Added a `companies` property.
+- Added the `getCompanies` method that creates an array of companies and assigns them to the companies property.
+- Called `getCompanies` when the component is initialised.
+
+# CompanyList - Show the companies
+
+Next we want to update the template for the company-list to output the list of companies assigned to the companies property.
+
+- Open the company-list component template and remove the default html.
+- Add the companies binding to HTML template using a JSON pipe.
+
+**src/app/company/company-list/company-list.component.html**
+
+```
+<pre>
+    {{companies | json}}
+</pre>
+```
+
+⚠️ You should get an error. This is because the json pipe is part of Angular's CommonModule package, which needs to be imported.
+
+**src/app/company/company-list/company-list.component.ts**
+```
+import { CommonModule } from '@angular/common';
+
+...
+
+imports: [CommonModule],
+```
+
+- Inspect the output in the browser. Your list of companies should be displayed.
+
+# Strongly type the companies array
+
+The `companies` array on our component is not currently strongly typed so we don't get intellisense or compile time checking.
+
+Next we are going to create a 'Company' interface, then update the array from being of type `any` to being of type `Company[]`.
+
+### Create the company interface
+
+- Create a 'Company' interface by running the following command
+
+```
+ng generate interface company/company
+```
+
+- Open the generated interface and add the following interface properties
+
+**src/app/company/company.ts**
+```
+export interface Company {
+    name: string;
+    email: string;
+    phone: string;
+}
+```
+
+### Strongly type the 'companies' property
+
+- Open the company-list component
+- Import the Company type
+
+**src/app/company/company-list/company-list.component.ts**
+```
+import { Company } from '../company';
+```
+
+- Replace the companies property `any` type with a `Company[]` type in CompanyListComponent.
+
+**src/app/company/company-list/company-list.component.ts**
+```
+companies: Company[];
+```
+
+#### Our CompanyListComponent should now look like this:
+
+```
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Company } from '../company';
+
+@Component({
+  selector: 'fbc-company-list',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './company-list.component.html',
+  styleUrl: './company-list.component.scss'
+})
+export class CompanyListComponent {  
+  companies: Company[] = [];
+
+  constructor() { }
+
+  ngOnInit() {
+    this.getCompanies();
+  }
+
+  getCompanies() {
+    this.companies = [
+      { name: 'company 1', email: 'email 1', phone: '111' },
+      { name: 'company 2', email: 'email 2', phone: '111' }
+    ];
+  }
+}
+```
+
+# Extra: VS Code extensions
+
+## Angular Essentials
+The best way to get all the best extensions for VS Code Angular development is to use an extension to install extensions. John Papa's "Angular Essentials" extension will install all of them for you.
+
+## Auto save
+
+To enable autosave select "Auto Save" from the "File" option in the main menu of VS Code. Some people do not like the constent refreshing but we highly recommend you at least try it out.
+
