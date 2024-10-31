@@ -3,6 +3,7 @@ import Header from "../components/ui/header";
 import NavPanel from "../components/ui/nav-panel";
 import "./styles.css";
 
+
 export default function RootLayout({
   children,
 }: {
@@ -34,7 +35,6 @@ export default function RootLayout({
           <NavPanel routes={course_routes} />
           <div className="flex flex-col flex-grow">
             <Header />
-            {/* TODO: Remove the fixed height from the main element */}
             <main className="p-4 flex-grow min-h-[calc(100vh-64px)]">
               {children}
             </main>

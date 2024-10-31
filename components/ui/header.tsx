@@ -18,7 +18,7 @@ export default function Header() {
           width={21}
           className="mb-1"
         />
-        <span className="ml-2">
+        <span className="ml-2 text-sm">
           Powered by <a href="https://tina.io">Tina CMS</a>
         </span>
       </div>

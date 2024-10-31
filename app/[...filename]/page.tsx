@@ -6,7 +6,6 @@ export async function generateStaticParams() {
   const paths = pages.data?.pageConnection?.edges?.map((edge) => ({
     filename: edge?.node?._sys.breadcrumbs,
   }));
-
   return paths || [];
 }
 
