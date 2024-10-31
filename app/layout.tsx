@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "../components/ui/header";
 import NavPanel from "../components/ui/nav-panel";
-import "../styles-output.css";
+import "./styles.css";
 
 export default function RootLayout({
   children,
@@ -9,6 +9,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
 
+  // TODO: Pull routes from GraphQL or something idk
   const course_routes = [
     { route: '/angular-cli', text: '1. Angular CLI' },
     { route: '/generating-components', text: '2. Generating Components' },
