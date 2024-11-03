@@ -1,0 +1,19 @@
+{
+    "items": [
+        {
+            "title": "Prerequisites",
+            "route": "/prerequisites",
+            "displayIndex": 0
+        },
+        {
+            "title": "Angular CLI",
+            "route": "/angular-cli",
+            "displayIndex": 1
+        },
+        {
+            "title": "Generating components zzz",
+            "route": "/generating-components",
+            "displayIndex": 2
+        }
+    ]
+}

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 /**
  * @type {import('tinacms').Collection}
  */
@@ -7,6 +8,16 @@ export default {
   path: "content/page",
   format: "mdx",
   fields: [
+    {
+      name: "menuLabel",
+      label: "Menu Label",
+      type: "string",
+    },
+    {
+      name: "menuIndex",
+      label: "Menu Index",
+      type: "number",
+    },
     {
       name: "body",
       label: "Main Content",

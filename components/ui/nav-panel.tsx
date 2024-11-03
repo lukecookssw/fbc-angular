@@ -1,25 +1,28 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import logo from "../../assets/img/fbc-logo.webp";
 import Link from "next/link";
 
-
-interface Route {
+export interface Route {
   route: string;
+  displayIndex: number;
   text: string;
 }
 
-interface NavPanelProps {
-  routes: Route[];
+export interface NavPanelProps {
+  routes: Route[] | undefined;
 }
 
-
 const NavPanel: React.FC<NavPanelProps> = ({ routes }) => {
+  const [currentPath, setCurrentPath] = useState<string | null>(null);
   const pathname = usePathname();
-  
+
+  useEffect(() => {
+    setCurrentPath(pathname);
+  }, [pathname]);
 
   return (
     <nav className="flex flex-col items-center bg-gray-300 text-white h-screen w-[300px] min-w-[300px] p-4 sticky top-0 overflow-y-auto">
@@ -28,20 +31,17 @@ const NavPanel: React.FC<NavPanelProps> = ({ routes }) => {
           <Image src={logo} alt="SSW FireBootCamp" height={70} />
         </Link>
       </div>
-      <ul className="flex flex-col space-y-4">
-        {routes.map((route) => (
-          <li key={route.route}>
-            <Link
-              href={route.route}
-              className={`hover:text-red-500 ${
-                pathname === route.route ? "active" : ""
-              }`}
-            >
+      <ol className="flex flex-col space-y-4">
+        {routes?.map((route) => (
+          <li key={route.route} className={`hover:text-red-500 ${
+            currentPath === route.route ? "active" : ""
+          }`}>
+            <Link href={route.route}>
               {route.text}
             </Link>
           </li>
         ))}
-      </ul>
+      </ol>
     </nav>
   );
 };
