@@ -20,14 +20,16 @@ const NavPanel: React.FC<NavPanelProps> = ({ routes }) => {
   const pathname = usePathname();
 
   useEffect(() => {
-    setCurrentPath(pathname);
+    // TODO: Improve this logic. Super hacky...
+    const route = pathname.replace("/", "");
+    setCurrentPath(route);
   }, [pathname]);
 
   return (
     <nav className="flex flex-col items-center bg-gray-300 text-white h-screen w-[300px] min-w-[300px] p-4 sticky top-0 overflow-y-auto">
       <div className="mb-8">
         <Link href="/">
-          <Image src={logo} alt="SSW FireBootCamp" height={70} />
+          <Image src={logo} alt="SSW FireBootCamp" height={50} />
         </Link>
       </div>
       <ol className="flex flex-col space-y-4">
