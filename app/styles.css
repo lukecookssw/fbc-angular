@@ -4,7 +4,7 @@
 
 /* put back some default styles */
 main a, header a {
-    color: #4128ff;
+    @apply text-blue-500;
 }
 
 main p {
