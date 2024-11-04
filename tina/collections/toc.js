@@ -5,6 +5,7 @@ export default {
     path: "content/toc",
     format: "json",
     ui: {
+        global: true,
         router: ({ document }) => `/toc/${document._sys.filename}`
     },
     fields: [
@@ -20,14 +21,10 @@ export default {
                     name: "title"
                 },
                 {
-                    type: "string",
-                    label: "Route",
-                    name: "route"
-                },
-                {
-                    type: "number",
-                    label: "Display Index",
-                    name: "displayIndex"
+                    type: "reference",
+                    label: "Page",
+                    name: "page",
+                    collections: ['page']
                 }
             ]
         }

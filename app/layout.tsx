@@ -9,12 +9,11 @@ export async function getTableOfContents(): Promise<Route[]> {
   const tocData =
     tableOfContents.data?.tocConnection?.edges?.[0]?.node?.items?.map(
       (item) => ({
-        displayIndex: item?.displayIndex ?? 0,
-        text: item?.title ?? "",
-        route: item?.route ?? "",
+        title: item?.title ?? "",
+        route: item?.page?._sys.filename.replace(".mdx", "") ?? "",
       })
     );
-  return tocData?.sort((a, b) => a.displayIndex - b.displayIndex) || [];
+  return tocData || [];
 }
 
 export default async function RootLayout({

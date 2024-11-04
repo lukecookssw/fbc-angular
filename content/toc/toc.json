@@ -1,19 +1,16 @@
 {
-    "items": [
-        {
-            "title": "Prerequisites",
-            "route": "/prerequisites",
-            "displayIndex": 0
-        },
-        {
-            "title": "Angular CLI",
-            "route": "/angular-cli",
-            "displayIndex": 1
-        },
-        {
-            "title": "Generating components zzz",
-            "route": "/generating-components",
-            "displayIndex": 2
-        }
-    ]
+  "items": [
+    {
+      "title": "Prerequisites",
+      "page": "content/page/prerequisites.mdx"
+    },
+    {
+      "title": "Angular CLI",
+      "page": "content/page/angular-cli.mdx"
+    },
+    {
+      "title": "Generating components zzz",
+      "page": "content/page/generating-components.mdx"
+    }
+  ]
 }

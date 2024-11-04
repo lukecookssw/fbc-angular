@@ -8,8 +8,7 @@ import Link from "next/link";
 
 export interface Route {
   route: string;
-  displayIndex: number;
-  text: string;
+  title: string;
 }
 
 export interface NavPanelProps {
@@ -37,7 +36,7 @@ const NavPanel: React.FC<NavPanelProps> = ({ routes }) => {
             currentPath === route.route ? "active" : ""
           }`}>
             <Link href={route.route}>
-              {route.text}
+              {route.title}
             </Link>
           </li>
         ))}

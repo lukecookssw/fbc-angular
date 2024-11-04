@@ -3,21 +3,11 @@
  * @type {import('tinacms').Collection}
  */
 export default {
-  label: "Page Content",
+  label: "Pages",
   name: "page",
   path: "content/page",
   format: "mdx",
   fields: [
-    {
-      name: "menuLabel",
-      label: "Menu Label",
-      type: "string",
-    },
-    {
-      name: "menuIndex",
-      label: "Menu Index",
-      type: "number",
-    },
     {
       name: "body",
       label: "Main Content",
