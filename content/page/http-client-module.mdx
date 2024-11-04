@@ -1,0 +1,219 @@
+## Overview
+
+In this lesson, we will use Angular's Http Client Module to make a real request.
+
+### Learning Outcomes: 
+- How to make Http requests to a web server
+- How to subscribe to an observable
+- How to manage error handling
+- How to use RXJS operators through .pipe() function
+
+## Call a real API from CompanyService
+
+The ```CompanyService``` currently returns an in-memory list. 
+
+The following changes will enable the service to call a real back-end, hosted on Microsoft Azure.
+
+ - Add the `provideHttpClient()` to your `app.config` providers.
+
+**src/app/app.config.ts**
+
+```
+  providers: [
+    provideHttpClient()
+  ]
+```
+
+- Import the Http, Headers, RequestOptions and Observable into the service
+
+**src/app/company/company.service.ts**
+
+```
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+```
+
+- Add a property for the ```API_BASE``` and inject the Http module into the component.
+
+**src/app/company/company.service.ts**
+
+```
+@Injectable()
+export class CompanyService {
+    API_BASE = 'https://app-fbc-crm-api-prod.azurewebsites.net/api';
+
+    constructor(private httpClient: HttpClient){}
+
+}
+```
+
+- Update the ```getCompanies``` method to call the API endpoint on Azure 
+```
+ getCompanies(): Observable<Company[]> {
+    return this.httpClient.get<Company[]>(`${this.API_BASE}/company`);
+  }
+```
+
+- update the component to call the updated service
+
+**src/app/company/company-list/company-list.component.ts**
+
+```
+  getCompanies() {
+    this.companyService.getCompanies()
+      .subscribe(companies => this.companies = companies);
+  }
+```
+
+- Refresh your browser. The list of companies now being shown is coming from the Microsoft Azure API! 
+
+## Add error handling to the service
+
+- Import the RxJS operators at the top of the file.
+
+**src/app/company/company.service.ts**
+
+```
+import { catchError } from 'rxjs/operators';
+```
+
+- add a catchError to the HTTP request in case of an error
+
+**src/app/company/company.service.ts**
+
+```
+  getCompanies(): Observable<Company[]> {
+    return this.httpClient.get<Company[]>(`${this.API_BASE}/company`)
+      .pipe(catchError(this.errorHandler));
+  }
+```
+
+- add the error handler to the service
+
+**src/app/company/company.service.ts**
+
+```
+
+  private errorHandler(error: Error): Observable<Company[]> {
+    console.error('implement custom error handler here', error);
+    return new Observable<Company[]>();
+  }
+
+ // TODO: Explain what pipe() is: without pipe, you get raw data - with pipe, you can transform your data before returning it.
+ // 1/ return union type so 400(bad request), 422(unprocessable) and 404(notfound)
+ // 2/ return an empty observable means it is completed
+ // 3/ use http interceptor and move this logic to a globale handler vs 500(server error)
+
+}
+
+
+```
+
+## Using the async pipe
+
+Introduced with Angular 4, the async pipe provides a way for us to bind observables directly into our templates without manually subscribing in our components.
+
+- Add an Observable import to CompaniesList component
+
+**src/app/company/company-list/company-list.component.ts**
+
+```
+import { Observable } from 'rxjs';
+```
+
+- update the type of the companies collection to be an `Observable`. Note the $ suffix on the property name. This is a convention used to label observable properties.
+
+```
+companies$!: Observable<Company[]>;
+```
+
+- Note the "!" (called a non-null assertion operator, or "bang" operator). This is a Typescript feature, not Angular.
+
+- update the `getCompanies()` method to remove the subscription and pass the observable directly to `companies$`
+
+```
+getCompanies() {
+    this.companies$ = this.companyService.getCompanies();
+}
+```
+
+- update the template to use the async pipe.  
+
+```
+<tr *ngFor="let company of companies$ | async">
+```
+
+### Async Pipe Explained
+
+Every subscription left against an observable uses a small amount of memory. Also every subscription will cause callbacks to be executed. So it's important to manage the lifecycle of our subscriptions. One way of managing unsubscribes is to keep a reference to the subscription and manually unsubscribe when a component is unloaded. This requires writing a few lines of code - which is why the async pipe was added. 
+
+Pipe operators (using the | char) are functions that can transform data inside a template. A classic example is the date pipe that allows date objects to be formatted for display. The `| async` pipe has been specifically made for safely dealing with observables.
+* The observable is subscribed to 
+* Any changes raised by the observable are updated in the template
+* If the component is unloaded, the subscription is automatically unsubscribed.
+
+## Using RXJS .pipe()
+
+RxJS operators can be applied anywhere on Observables to perform operation. We've seen how to add a "catchError" to handle our errors in the Service. We can also add pipe() in our Component to perform any operation required.
+
+- Add 'tap' & 'finalise' operators both in Service and Component :
+
+**src/app/company/company.service.ts**
+
+```
+    import { tap, finalize } from 'rxjs/operators';
+    
+    ...
+    
+    getCompanies(): Observable<Company[]> {
+        return this.httpClient.get<Company[]>(`${this.API_BASE}/company`)
+          .pipe(
+            tap(x => console.log('TAP - Service', x)),
+            catchError(this.errorHandler)
+          );
+      }
+```
+
+
+**src/app/company/company-list/company-list.component.ts**
+
+```
+    import { tap, finalize } from 'rxjs/operators';
+    
+    ...
+
+     getCompanies() {
+        this.companies$ = this.companyService.getCompanies()
+          .pipe(
+            tap(x => console.log('TAP - Component', x)),
+            finalize(() => console.log('Finalize: Complete'))
+          );
+      }
+```
+
+'tap' operator let you Transparently perform actions or side-effects, such as logging. 
+(https://www.learnrxjs.io/operators/utility/do.html)
+
+'finalize' let you call a function (callback) when the observable completes.
+(https://www.learnrxjs.io/operators/utility/finalize.html)
+
+You can chain as many RxJS operators as you need to implement any complex scenario.
+
+
+## EXTRA Subscription management
+
+> https://medium.com/@gergo.koncz/rxjs-subscription-management-in-angular-f242180c8173
+
+Read this article to know more about subscription management in Angular
+
+> https://github.com/ngneat/until-destroy
+
+My favourite: NgNeat Until-Destroy <3
+
+![](https://firebootcamp.ghost.io/content/images/2023/09/ngNeat.png)
+
+## EXTRA RxMarbles
+
+- RxMarbles (https://rxmarbles.com/) is an awesome website that lets you play with an interactive representation of all Rx Operators
+- It is very useful in understanding how the most common RxJS operators work

@@ -1,0 +1,276 @@
+## Overview
+
+In this lesson, we will refactor our company table to be a 'presentation' component (also known as a 'dumb' component). 
+
+It will be a child component of the company-list component, and we will pass the list of companies from the company-list down to the company-table.
+
+### Learning Outcomes: 
+- How to communicate between components
+- How to create presentation components
+- Understand the [difference between 'smart' and 'presentational' components](https://blog.angular-university.io/angular-2-smart-components-vs-presentation-components-whats-the-difference-when-to-use-each-and-why/)
+
+## Create the component using the Angular CLI
+
+- Open a command prompt and generate a new component for the company table.
+
+```
+ng generate component company/company-table --skip-tests
+```
+
+## Move the company HTML table to the company-table component
+#####TIME: 5 min
+
+- Move the Html table from the HTML template for company-list onto the HTML template for company-table
+
+Company table should now look like this: 
+
+**src/app/company/company-table/company-table.component.html**
+```
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let company of companies$ | async ">
+            <td>{{company.name}}</td>
+            <td>{{company.email}}</td>
+            <td>{{company.phone}}</td>
+            <td class="company-actions">
+                <button class="btn btn-primary">Edit</button>
+                <button class="btn btn-outline-danger" (click)="deleteCompany(company.id)">Delete</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+```
+
+- Don't worry about the errors, we are going to fix the code pretty soon.
+
+- Move table CSS to child component
+**src/app/company/company-table/company-table.component.scss**
+
+```
+.company-actions {
+    width: 140px;
+    white-space: nowrap
+}
+
+.company-actions .btn {
+  margin: 0 5px;
+}
+```
+
+## Update the code for the table-component
+
+To refactor the company table from the company-list to the company-table we are going to:
+- Update the component class to be able to receive data 
+- Update the component class to be able to emit an event when the delete button is clicked.
+
+First thing first, let's fix the errors in our CompanyTable component HTML:
+
+1. Add a "companies" property and an empty method for "deleteCompany()" to our new component:
+
+**src/app/company/company-table/company-table.component.ts**
+
+```
+import { Component } from '@angular/core';
+import { Company } from '../company';
+import { CommonModule } from '@angular/common';
+
+@Component({
+  selector: 'fbc-company-table',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './company-table.component.html',
+  styleUrl: './company-table.component.scss'
+})
+export class CompanyTableComponent {
+  companies!: Company[];
+
+  deleteCompany(id: number){
+    // TODO: Implement a deleteCompany method in CompanyTable
+  }
+}
+```
+
+2. This new child component should be as "dumb" as possible and should just display a list of companies, therefore change from:
+```
+<tr *ngFor="let company of companies$ | async ">
+```
+
+to:
+```
+<tr *ngFor="let company of companies">
+```
+
+
+Now, to pass data into components and emit events we need the ```@Input``` and ```@Output``` decorators and the ```EventEmitter``` module.
+
+- update the imports for the ```CompanyTable``` component
+
+**src/app/company/company-table/company-table.component.ts**
+
+```
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Company } from '../company';
+```
+
+- use the two new decorators to create an Input() and an Output()
+
+**src/app/company/company-table/company-table.component.ts**
+
+```
+@Input() 
+companies: Company[];
+
+@Output() 
+deleteCompanyClicked: EventEmitter<number> = new EventEmitter<number>();
+```
+
+The updated company-table component should look like this: 
+
+```
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Company } from '../company';
+
+@Component({
+  selector: 'fbc-company-table',
+  templateUrl: './company-table.component.html',
+  styleUrls: ['./company-table.component.scss']
+})
+export class CompanyTableComponent implements OnInit {
+  @Input() 
+  companies!: Company[];
+  
+  @Output() 
+  deleteCompanyClicked: EventEmitter<number> = new EventEmitter<number>();
+
+  constructor() { }
+
+  ngOnInit() {
+  }
+  
+  deleteCompany(id: number){
+    // TODO: Implement a deleteCompany method in CompanyTable
+  }
+}
+```
+
+
+## Update the company-table template to call deleteCompanyClicked
+#####TIME: 5 min
+
+// ⚠️ TODO: the next steps are inconsistent: in delete(), do we pass company or company.id?
+// I think deleteCompany(company) below should actually stay deleteCompany(company.id)
+
+- Update the '(click)' event on the button.
+
+**src/app/company/company-table/company-table.component.html**
+
+```
+<button class="btn btn-outline-danger" (click)="deleteCompany(company)">Delete</button>
+```
+
+- Update the component code with the following:
+
+**src/app/company/company-table/company-table.component.ts**
+
+```
+    deleteCompany(id: number) {
+        this.deleteCompanyClicked.emit(id);
+    }
+```
+
+
+> Note that you can also call '.emit()' directly from the template:
+
+**src/app/company/company-table/company-table.component.html**
+
+```
+<button class="btn btn-outline-danger" (click)="deleteCompanyClicked.emit(company.id)">Delete</button>
+```
+
+
+
+## Update the html for the company-list component
+
+Now that we have moved the company-table out onto a separate control, we need to add that control on the (parent) company-list control.
+
+The company-list component should now look like this: 
+
+**src/app/company/company-list/company-list.component.html**
+
+// ⚠️ TODO: why was float-end changed to pull-right below?
+
+
+```
+<h1>
+    Companies
+    <button class="btn btn-success pull-right">Add</button>
+</h1> 
+<fbc-company-table [companies]="(companies$ | async) || []" (deleteCompanyClicked)="deleteCompany($event)"></fbc-company-table> 
+```
+
+## EXTRA: Demonstrate OnPush change detection 
+
+Presentational Components are deliberately simple: they contain no logic, receive property values from their `@Input` properties and raise events via their `@Output` `EventEmitter`s.
+
+This simplicity makes them the perfect place to start investigating Angular's Change Detection settings. First we will add some debug code to demonstrate how often the Angular framework evaluates a template in with the default change detection strategy.
+
+Add a logging function to your component:
+**src/app/company/company-list/company-list.component.ts**
+
+```
+    logChanges() {
+        console.log('CHANGES !!!');
+    }
+```
+
+And then call that function directly from your template. Note that binding component functions directly to the template is not recommended - for reasons that will soon become clear!
+
+```
+<h1>
+    Companies
+    <button class="btn btn-success pull-right">Add</button>
+</h1>
+<fbc-company-table [companies]="(companies$ | async) || []" (deleteCompanyClicked)="deleteCompany($event)"></fbc-company-table> 
+
+{{logChanges()}}
+
+```
+
+Reload the app with the chrome dev tools console open, and you will see that the `logChanges()` function was called many times - indicating that the Angular template was executed many times. 
+When binding data into a template, you should bind to properties and not functions as that function will be executed each time the Angular change detection process re-evaluate the angular template.
+
+### OnPush Change detection
+
+The default change detection process in Angular is quite aggressive. It needs to re-evaluate templates frequently to make sure that changes to component properties are applied to the DOM. 
+You can change this process to use OnPush Change Detection. This will only re-evaluate the template when:
+1. An `@Input` value changes
+2. An event (`@Output`) is raised by this component or one of this component's children
+
+Update the change detection strategy in the component's metadata
+**src/app/company/company-list/company-list.component.ts**
+
+// ⚠️ TODO: I had to make the change in company-list, not company-table
+
+```
+
+@Component({
+     selector: 'fbc-company-list',
+     standalone: true,
+     imports: [CommonModule, CompanyTableComponent],
+     templateUrl: './company-list.component.html',
+     styleUrl: './company-list.component.scss',
+     changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class CompanyListComponent {
+
+```
+
+Reload with the chrome dev tools open and you should see that the template is only evaluated twice: when the component first loads and when the `@Input` receives data as loaded from the server.

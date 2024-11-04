@@ -1,4 +1,4 @@
-# Overview
+## Overview
 
 In this lesson, we will create a `CompanyListComponent` and discuss components and Angular module structure.
 
@@ -9,7 +9,7 @@ In this lesson, we will create a `CompanyListComponent` and discuss components a
 - Understand the main parts of an Angular module
 - Understand basic data binding and Angular directives
 
-# Generate a new CompanyListComponent
+## Generate a new CompanyListComponent
 
 - Make a new `CompanyListComponent` with the CLI by running the following command in the terminal:
 
@@ -40,7 +40,7 @@ import { CompanyListComponent } from './company/company-list/company-list.compon
 imports: [CompanyListComponent],
 ```
 
-# CompanyList - Load the companies
+## CompanyList - Load the companies
 
 We are going to update the company-list component to load an array of properties when the component is initialised and assign them to a property of the component called `companies`.
 
@@ -80,7 +80,7 @@ export class CompanyListComponent {
 - Added the `getCompanies` method that creates an array of companies and assigns them to the companies property.
 - Called `getCompanies` when the component is initialised.
 
-# CompanyList - Show the companies
+## CompanyList - Show the companies
 
 Next we want to update the template for the company-list to output the list of companies assigned to the companies property.
 
@@ -108,7 +108,7 @@ imports: [CommonModule],
 
 - Inspect the output in the browser. Your list of companies should be displayed.
 
-# Strongly type the companies array
+## Strongly type the companies array
 
 The `companies` array on our component is not currently strongly typed so we don't get intellisense or compile time checking.
 
@@ -182,12 +182,12 @@ export class CompanyListComponent {
 }
 ```
 
-# Extra: VS Code extensions
+## Extra: VS Code extensions
 
-## Angular Essentials
+### Angular Essentials
 The best way to get all the best extensions for VS Code Angular development is to use an extension to install extensions. John Papa's "Angular Essentials" extension will install all of them for you.
 
-## Auto save
+### Auto save
 
 To enable autosave select "Auto Save" from the "File" option in the main menu of VS Code. Some people do not like the constent refreshing but we highly recommend you at least try it out.
 

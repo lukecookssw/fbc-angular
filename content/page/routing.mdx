@@ -1,0 +1,219 @@
+## Overview
+
+In this lesson, we will introduce routing by moving the company list onto its own route.
+
+### Learning Outcomes: 
+- How to route to a component
+
+## Define the routes in app.routes.ts
+
+- In the 'app' folder the cli auto created us an 'app.routes.ts' file.
+- Add the following code to app.routes.ts
+
+**src/app/app.routes.ts**
+
+```
+import { Routes } from '@angular/router';
+import { CompanyListComponent } from './company/company-list/company-list.component';
+
+export const routes: Routes = [
+  {
+    path: '',
+    redirectTo: 'company/list',
+    pathMatch: 'full'
+  },
+  {
+    path: 'company/list',
+    component: CompanyListComponent
+  },
+];
+
+```
+
+## Add a router-outlet to the template
+
+- Inspect the template for the app component to see the router-outlet (where the routing is embedded).
+- You can remove the hard coded value for the CompanyListComponent
+
+**src/app/app.component.html**
+
+- Add navbar HTML
+
+```
+<nav class="navbar navbar-light bg-faded">
+  <div class="container-fluid">
+    <a class="navbar-brand">FireBootCamp CRM</a>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item" [routerLinkActive]="'active'">
+        <a class="nav-link" [routerLink]="['/company/list']">Companies</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container">
+  <router-outlet></router-outlet>
+</div>
+
+```
+
+**src/app/app.component.ts**
+
+- Import RouterModule
+
+```
+import { RouterModule } from '@angular/router';
+```
+
+```
+imports: [CompanyListComponent, RouterModule],
+
+```
+
+
+**src/app/app.component.scss**
+
+- Add navbar styling
+
+```
+.active .nav-link {
+  opacity: .5;
+}
+```
+
+## Adding the Edit component
+
+- Open a command prompt and generate a new company component.
+
+```
+ng generate component company/company-edit --skip-tests
+```
+
+- Open the list component and edit the 'Add' button to route to the new edit component.
+
+***src/app/company/company-list/company-list.component.html***
+
+```
+<button class="btn btn-success float-end" [routerLink]="['/company/add']">Add</button>
+```
+
+- Import the new component into the app routes and add the route to allow navigating to the component.
+
+Your app.routes.ts should now look like this:
+
+***src/app/app-routing.module.ts***
+
+```
+import { Routes } from '@angular/router';
+import { CompanyListComponent } from './company/company-list/company-list.component';
+import { CompanyEditComponent } from './company/company-edit/company-edit.component';
+
+export const routes: Routes = [
+  {
+    path: '',
+    redirectTo: 'company/list',
+    pathMatch: 'full'
+  },
+  {
+    path: 'company/list',
+    component: CompanyListComponent
+  },
+  {
+    path: 'company/add',
+    component: CompanyEditComponent
+  },
+  {
+    path: 'company/edit/:id',
+    component: CompanyEditComponent
+  },
+];
+
+```
+
+- Try out clicking add and navigating to the new EditComponent.
+
+> Note that for the purpose of this demonstration, we decided to have two routes ('/edit' and '/add') leading to the same component, but we could have used '/edit/0' or '/edit/add'
+
+## Adding a "Not Found"
+
+- Open a command prompt and generate a new component outside of company.
+
+```
+ng generate component not-found --skip-tests
+```
+
+- Import the new component into the app routes and add the route to allow navigating to the component.
+
+> ⚠️ Note: Ensure `path: '**'` is placed at the end of your routes array. This is because ** is a wildcard that matches any route, so if it appears earlier, it will override all subsequent routes.
+
+Your app.routes.ts should now look like this:
+
+***src/app/app-routing.module.ts***
+
+```
+import { Routes } from '@angular/router';
+import { CompanyListComponent } from './company/company-list/company-list.component';
+import { CompanyEditComponent } from './company/company-edit/company-edit.component';
+import { NotFoundComponent } from './not-found/not-found.component';
+
+export const routes: Routes = [
+  {
+    path: '',
+    redirectTo: 'company/list',
+    pathMatch: 'full'
+  },
+  {
+    path: 'company/list',
+    component: CompanyListComponent
+  },
+  {
+    path: 'company/add',
+    component: CompanyEditComponent
+  },
+  {
+    path: 'company/edit/:id',
+    component: CompanyEditComponent
+  },
+  {
+    path: '**',
+    component: NotFoundComponent
+  },
+];
+
+```
+
+- Open the Not Found component and edit the template.
+
+***src/app/not-found.html***
+
+```
+<div class="notfound-container">
+  <h1>404</h1>
+  <p>Page Not Found</p>
+</div>
+
+```
+
+- Open the Not Found component and add some style to it.
+
+***src/app/not-found.scss***
+
+```
+.notfound-container {
+  text-align: center;
+}
+
+.notfound-container h1 {
+  font-size: 16rem;
+  color: #CC4141;
+}
+
+.notfound-container p {
+  font-size: 8rem;
+  color: #333;
+}
+
+
+```
+
+- Try out opening a random URL e.g. `http://localhost:4200/compa` to see your Not Found page

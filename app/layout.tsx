@@ -10,7 +10,7 @@ export async function getTableOfContents(): Promise<Route[]> {
     tableOfContents.data?.tocConnection?.edges?.[0]?.node?.items?.map(
       (item) => ({
         title: item?.title ?? "",
-        route: item?.page?._sys.filename.replace(".mdx", "") ?? "",
+        route: item?.page?._sys.filename ?? "",
       })
     );
   return tocData || [];

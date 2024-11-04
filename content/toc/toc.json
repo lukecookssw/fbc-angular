@@ -11,6 +11,30 @@
     {
       "title": "Generating components",
       "page": "content/page/generating-components.mdx"
+    },
+    {
+      "title": "Third-party dependencies",
+      "page": "content/page/third-party-dependencies-and-styling.mdx"
+    },
+    {
+      "title": "Angular services",
+      "page": "content/page/angular-services.mdx"
+    },
+    {
+      "title": "Http client module",
+      "page": "content/page/http-client-module.mdx"
+    },
+    {
+      "title": "Delete companies",
+      "page": "content/page/delete-companies.mdx"
+    },
+    {
+      "title": "Component communication",
+      "page": "content/page/component-communication.mdx"
+    },
+    {
+      "title": "Routing",
+      "page": "content/page/routing.mdx"
     }
   ]
 }

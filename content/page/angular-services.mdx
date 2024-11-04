@@ -1,0 +1,198 @@
+## Overview
+
+In this lesson, we will create a ```CompanyService``` and inject it into our CompanyListComponent.
+
+### Learning Outcomes: 
+- How to generate and use Angular Services.
+- How to use Angular dependency injection.
+
+
+## Create the CompanyService 
+
+
+- Make a new CompanyService with the CLI by running the following command in the terminal. 
+
+```
+ ng generate service company/company --skip-tests
+```
+
+- Open 'company.service.ts' and inspect the created service.
+
+***src/app/company/company.service.ts***
+
+```
+import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class CompanyService {
+
+  constructor() { }
+}
+
+```
+
+Note the ```@Injectable``` decorator - this is what registers the class with the Angular dependency injection service as injectable as a service.
+
+Note the ```providedIn: 'root'``` - this attribute lets you define where your provider (service) is registered. 'Root' is the default value, but you can specify any module.
+ 
+## Add the getCompanies function
+
+Next, we are going to add the ```getCompanies``` function to the service.
+
+For the first version of the service, we are going to return a hard coded array as Observable.
+
+- update the service to reflect the following changes
+
+***src/app/company/company.service.ts***
+
+```
+import { Injectable } from '@angular/core';
+import { Company } from './company';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class CompanyService {
+
+  constructor() { }
+
+  getCompanies () : Company[] {
+    return [
+      { name: 'company 1', email: 'email 1', phone: 111 },
+      { name: 'company 2', email: 'email 2', phone: 111 }
+    ];
+  }
+}
+```
+
+Note: 
+
+- We are importing several modules from RxJS. We will discuss RxJS in more detail in a later module.
+- The important takeaway here is that we have added the getCompanies method that returns an array of companies.
+
+## Inject CompanyService into CompanyListComponent
+
+To be able to access the ```CompanyService``` from inside the ```CompanyListComponent``` we need to inject the service via the constructor of the component.
+
+- add the following import statement to the company-list component
+
+***src/app/company/company-list/company-list.component.ts***
+
+```
+import { CompanyService } from '../company.service';
+```
+
+- update the constructor of the company-list component to inject the ```CompanyService```.
+
+***src/app/company/company-list/company-list.component.ts***
+
+```
+  constructor(private companyService: CompanyService) { }
+```
+
+In the next step, we will use the service we just injected to load companies.
+
+```
+    getCompanies() {
+        this.companies = this.companyService.getCompanies();
+    }
+```
+
+## Final code
+
+The files that we modified should now look like this:
+
+***src/app/company/company-list/company-list.component.html***
+
+```
+<h1>
+  Companies
+  <button class="btn btn-success float-end">Add</button>
+</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let company of companies">
+      <td>{{ company.name }}</td>
+      <td>{{ company.email }}</td>
+      <td>{{ company.phone }}</td>
+      <td class="company-actions">
+        <button class="btn btn-primary">Edit</button>
+        <button class="btn btn-outline-danger">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+```
+
+***src/app/company/company-list/company-list.component.ts***
+
+```
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Company } from '../company';
+import { CompanyService } from '../company.service';
+
+@Component({
+  selector: 'fbc-company-list',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './company-list.component.html',
+  styleUrl: './company-list.component.scss'
+})
+export class CompanyListComponent {
+  companies: Company[] = [];
+
+  constructor(private companyService: CompanyService) { }
+
+  ngOnInit() {
+    this.getCompanies();
+  }
+
+  getCompanies() {
+    this.companies = this.companyService.getCompanies();
+  }
+}
+```
+
+***src/app/company/company.service.ts***
+
+```
+import { Injectable } from '@angular/core';
+import { Company } from './company';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class CompanyService {
+
+  constructor() { }
+
+  getCompanies(): Company[] {
+    return [
+      { name: 'company 1', email: 'email 1', phone: 111 },
+      { name: 'company 2', email: 'email 2', phone: 111 }
+    ];
+  }
+}
+```
+
+## EXTRA: Angular Dev Tools
+
+Angular DevTools is a Chrome extension that provides debugging and profiling capabilities for Angular applications. Angular DevTools supports Angular v9 and later, with Ivy enabled.
+
+[https://angular.io/guide/devtools](https://angular.io/guide/devtools)
+
+![](https://firebootcamp.ghost.io/content/images/2022/05/unnamed.jpg)
+
+[Install the Chrome Extension](https://chrome.google.com/webstore/detail/angular-devtools/ienfalfjdbdpebioblfackkekamfmbnh)
+
