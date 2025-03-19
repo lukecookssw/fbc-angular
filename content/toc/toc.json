@@ -1,40 +1,124 @@
 {
   "items": [
     {
-      "title": "Prerequisites",
+      "title": "Getting Ready - Prerequisites",
       "page": "content/page/prerequisites.mdx"
     },
     {
-      "title": "Angular CLI",
+      "title": "Angular - Introduction",
+      "page": "content/page/introduction-to-angular.mdx"
+    },
+    {
+      "title": "Angular - RxJS in Angular",
+      "page": "content/page/rxjs-in-angular.mdx"
+    },
+    {
+      "title": "CRM app - Angular CLI",
       "page": "content/page/angular-cli.mdx"
     },
     {
-      "title": "Generating components",
+      "title": "CRM app - Generating components",
       "page": "content/page/generating-components.mdx"
     },
     {
-      "title": "Third-party dependencies",
+      "title": "CRM app - Third-party dependencies",
       "page": "content/page/third-party-dependencies-and-styling.mdx"
     },
     {
-      "title": "Angular services",
+      "title": "CRM app - Angular services",
       "page": "content/page/angular-services.mdx"
     },
     {
-      "title": "Http client module",
+      "title": "CRM app - Http client module",
       "page": "content/page/http-client-module.mdx"
     },
     {
-      "title": "Delete companies",
+      "title": "CRM app - Delete companies",
       "page": "content/page/delete-companies.mdx"
     },
     {
-      "title": "Component communication",
+      "title": "CRM app - Component communication",
       "page": "content/page/component-communication.mdx"
     },
     {
-      "title": "Routing",
+      "title": "CRM app - Routing",
       "page": "content/page/routing.mdx"
+    },
+    {
+      "title": "CRM app - Reactive forms - Add company",
+      "page": "content/page/reactive-forms-add-company.mdx"
+    },
+    {
+      "title": "CRM app - Reactive forms - Edit company",
+      "page": "content/page/reactive-forms-edit-company.mdx"
+    },
+    {
+      "title": "CRM app - State management",
+      "page": "content/page/state-management.mdx"
+    },
+    {
+      "title": "CRM app - Modules and code splitting",
+      "page": "content/page/modules-and-code-splitting.mdx"
+    },
+    {
+      "title": "CRM app - Testing",
+      "page": "content/page/testing.mdx"
+    },
+    {
+      "title": "CRM app - Creating the testing app",
+      "page": "content/page/creating-the-testing-app.mdx"
+    },
+    {
+      "title": "Testing - Building the testing app",
+      "page": "content/page/building-the-testing-app.mdx"
+    },
+    {
+      "title": "Testing - Jasmine JavaScript testing framework",
+      "page": "content/page/jasmine-javascript-testing-framework.mdx"
+    },
+    {
+      "title": "Testing - Faking dependencies",
+      "page": "content/page/faking-dependencies.mdx"
+    },
+    {
+      "title": "Testing - TestBed API",
+      "page": "content/page/testbed-api.mdx"
+    },
+    {
+      "title": "Testing - Async and fakeAsync",
+      "page": "content/page/async-and-fakeasync.mdx"
+    },
+    {
+      "title": "Testing - E2E tests with Protractor",
+      "page": "content/page/e2e-tests-with-protractor.mdx"
+    },
+    {
+      "title": "Testing - Testing services",
+      "page": "content/page/testing-service.mdx"
+    },
+    {
+      "title": "NgRx - Introduction",
+      "page": "content/page/introduction-to-ngrx.mdx"
+    },
+    {
+      "title": "NgRx - Installation and reducers",
+      "page": "content/page/installation-and-reducers.mdx"
+    },
+    {
+      "title": "NgRx - Redux dev tools",
+      "page": "content/page/redux-dev-tools.mdx"
+    },
+    {
+      "title": "NgRx - Action creators",
+      "page": "content/page/action-creators.mdx"
+    },
+    {
+      "title": "NgRx - Effects",
+      "page": "content/page/effects.mdx"
+    },
+    {
+      "title": "NgRx - Delete companies",
+      "page": "content/page/delete-companies-2.mdx"
     }
   ]
 }
