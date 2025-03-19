@@ -6,12 +6,12 @@ import "./styles.css";
 
 export async function getTableOfContents(): Promise<Route[]> {
   const tableOfContents = await client.queries.tocConnection();
-  const tocData =
+    const tocData =
     tableOfContents.data?.tocConnection?.edges?.[0]?.node?.items?.map(
-      (item) => ({
-        title: item?.title ?? "",
-        route: item?.page?._sys.filename ?? "",
-      })
+      (item) => {
+        return {title: item?.title ?? "",
+        route: item?.page?._sys.breadcrumbs.join('/') ?? "",
+      }}
     );
   return tocData || [];
 }
