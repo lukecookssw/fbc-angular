@@ -1,12 +1,25 @@
 import ClientPage from "./client-page";
 import client from "../../tina/__generated__/client";
+import { glob } from "fast-glob";
 
 export async function generateStaticParams() {
-  const pages = await client.queries.pageConnection();
-  const paths = pages.data?.pageConnection?.edges?.map((edge) => ({
-    filename: edge?.node?._sys.breadcrumbs,
-  }));
-  return paths || [];
+  try {
+    const contentDir = './content/page/';
+    const files = await glob(`${contentDir}**/*.mdx`);
+    console.log('🤐🤐🤐')
+    console.log(files);
+    const files2 = files
+    .filter((file) => !file.endsWith('index.mdx'))
+    .map((file) => {
+      const path = file.substring(contentDir.length, file.length - 4); // Remove "./content/docs/" and ".mdx"
+      return { filename: path.split('/') };
+    });
+    console.log(files2);
+    return files2;
+      
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 export async function getTableOfContents(): Promise<any[]> {
@@ -26,8 +39,11 @@ export default async function Page({
 }: {
   params: { filename: string[] };
 }) {
+  console.log('🤔🤔🤔 slugs')
+  console.log(params.filename);
+  const filename = params.filename.join('/');
   const data = await client.queries.page({
-    relativePath: `${params.filename}.mdx`,
+    relativePath: `${filename}.mdx`,
   });
 
   let menuItems = await getTableOfContents();
