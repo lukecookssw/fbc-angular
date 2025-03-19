@@ -1,17 +1,20 @@
+
 ## Overview
+
 ##### Time: 5min
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/IZEolKjcjks?si=cTCXKG0dRKL1LsMv" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+Video (10 min): [Angular CLI - The Basics](https://www.youtube.com/watch?v=IZEolKjcjks)
 
 The Angular CLI makes it easy to create an application that already works, right out of the box. It already follows our best practices! It allows you to:
 
-- Generate components, routes, services and pipes with a simple command. The CLI will also create simple test shells for all of these.
-- Easily put your application in production
-- Make your code really shine. Run your unit tests or your end-to-end tests with the breeze of a command. Execute the official Angular2 linter and run clang format.
+* Generate components, routes, services and pipes with a simple command. The CLI will also create simple test shells for all of these.
+* Easily put your application in production
+* Make your code really shine. Run your unit tests or your end-to-end tests with the breeze of a command. Execute the official Angular2 linter and run clang format.
 
 Learn more at [Angular CLI Website](https://cli.angular.io)
 
 ## Check Node.js & npm versions
+
 ##### Time: 5min
 
 Both the CLI and generated project have dependencies that require NodeJS, together with NPM (use LTS versions).
@@ -19,18 +22,19 @@ Both the CLI and generated project have dependencies that require NodeJS, togeth
 ### Check your versions of Node.js and NPM
 
 Check you have the right versions:
+
 ```
  node -v
  npm -v
 ```
 
-### Install Node.js LTS Version https://nodejs.org/en 
+### Install Node.js LTS Version [https://nodejs.org/en](https://nodejs.org/en)
 
-If you do not have node installed, install it from https://nodejs.org/en 
+If you do not have node installed, install it from [https://nodejs.org/en](https://nodejs.org/en)
 
 ### Upgrading Node and NPM
 
-If you do not have the right version of node or npm, it is best to uninstall then and reinstall them and your global npm packages. 
+If you do not have the right version of node or npm, it is best to uninstall then and reinstall them and your global npm packages.
 
 Using the command below you can check which global npm packages you have installed so that you can reinstall them afterward.
 
@@ -39,23 +43,27 @@ Using the command below you can check which global npm packages you have install
 ```
 
 ## Install the CLI
+
 ##### Time: 10min
 
 > Important Note: If you already have a previous version of the Angular CLI installed, you must uninstall it. Jump to the next step 'Updating the CLI'.
 
 Use npm to install the CLI with the below command
+
 ```
 npm install -g @angular/cli
 ```
 
-As a refresher, the `-g` flag installs this package globally, which means we can run it from anywhere on the machine. 
+As a refresher, the `-g` flag installs this package globally, which means we can run it from anywhere on the machine.
 
-Once installed you should be able to create a new Angular project 
+Once installed you should be able to create a new Angular project
+
 ```
 ng new hello-world
 ```
 
 Once created you can change directory into the project and run it with `ng serve`.
+
 ```
 cd hello-world
 ng serve
@@ -63,8 +71,8 @@ ng serve
 
 You should now be able to open a browser at [http://localhost:4200](http://localhost:4200) and view your website.
 
-
 ## Updating the CLI
+
 ##### Time: 10min
 
 If you have installed the CLI before it is best to check you have the latest version. If you do not follow the below steps to reinstall it:
@@ -77,16 +85,18 @@ npm install -g @angular/cli
 
 ```
 
-
 ## Troubleshooting
-##### Time: 5min
-If you get node-gyp errors follow instructions here 
-  https://github.com/nodejs/node-gyp 
 
-If you get permission errors follow instructions here 
-https://docs.npmjs.com/getting-started/fixing-npm-permissions 
+##### Time: 5min
+
+If you get node-gyp errors follow instructions here
+[https://github.com/nodejs/node-gyp](https://github.com/nodejs/node-gyp)
+
+If you get permission errors follow instructions here
+[https://docs.npmjs.com/getting-started/fixing-npm-permissions](https://docs.npmjs.com/getting-started/fixing-npm-permissions)
 
 Possibly needing to:
-- add %AppData%\npm to the beginning of the PATH environment variable
-- run set-ExecutionPolicy RemoteSigned -Scope CurrentUser
-- set git user to avoid this error 'Author Identity Unknown' (git config)
+
+* add %AppData%\npm to the beginning of the PATH environment variable
+* run set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+* set git user to avoid this error 'Author Identity Unknown' (git config)
