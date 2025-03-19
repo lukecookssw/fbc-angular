@@ -1,8 +1,52 @@
 {
   "items": [
     {
-      "title": "Getting Ready - Prerequisites",
+      "title": "Prerequisites",
       "page": "content/page/prerequisites.mdx"
+    },
+    {
+      "title": "Getting Ready - How to setup your machine",
+      "page": "content/page/getting-ready/how-to-setup-your-machine.mdx"
+    },
+    {
+      "title": "Getting Ready - Intro to Visual Studio Code",
+      "page": "content/page/getting-ready/intro-to-visual-studio-code.mdx"
+    },
+    {
+      "title": "Getting Ready - Installing the Angular CLI",
+      "page": "content/page/getting-ready/installing-the-angular-cli.mdx"
+    },
+    {
+      "title": "Getting Ready - Visual Studio Code Extensions",
+      "page": "content/page/getting-ready/visual-studio-code-extensions.mdx"
+    },
+    {
+      "title": "Fundamentals - Introduction to Angular",
+      "page": "content/page/fundamentals/introduction-to-angular.mdx"
+    },
+    {
+      "title": "Fundamentals - Intro to the Angular CLI",
+      "page": "content/page/fundamentals/intro-to-the-angular-cli.mdx"
+    },
+    {
+      "title": "Fundamentals - Hello World App - Your First Component",
+      "page": "content/page/fundamentals/hello-world-app-your-first-component.mdx"
+    },
+    {
+      "title": "Fundamentals - Hello World App - Two-way Data-binding and Adding Components",
+      "page": "content/page/fundamentals/hello-world-app-two-way-data-binding-and-adding-components.mdx"
+    },
+    {
+      "title": "Fundamentals - Counter App - Communicating between Components",
+      "page": "content/page/fundamentals/counter-app-communicating-between-components.mdx"
+    },
+    {
+      "title": "Fundamentals - Counter App - Introducing Services",
+      "page": "content/page/fundamentals/counter-app-introducing-services.mdx"
+    },
+    {
+      "title": "Fundamentals - Counter App - Introducing Angular Http Client",
+      "page": "content/page/fundamentals/counter-app-introducing-angular-http-client.mdx"
     },
     {
       "title": "Angular - Introduction",
