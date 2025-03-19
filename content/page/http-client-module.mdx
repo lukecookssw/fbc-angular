@@ -1,4 +1,5 @@
 ## Overview
+##### Time: 5min
 
 In this lesson, we will use Angular's Http Client Module to make a real request.
 
@@ -29,9 +30,9 @@ The following changes will enable the service to call a real back-end, hosted on
 **src/app/company/company.service.ts**
 
 ```
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 ```
 
 - Add a property for the ```API_BASE``` and inject the Http module into the component.
@@ -60,15 +61,16 @@ export class CompanyService {
 **src/app/company/company-list/company-list.component.ts**
 
 ```
-  getCompanies() {
-    this.companyService.getCompanies()
-      .subscribe(companies => this.companies = companies);
-  }
+  getCompanies() {
+    this.companyService.getCompanies()
+      .subscribe(companies => this.companies = companies);
+  }
 ```
 
 - Refresh your browser. The list of companies now being shown is coming from the Microsoft Azure API! 
 
 ## Add error handling to the service
+##### Time: 5 min
 
 - Import the RxJS operators at the top of the file.
 
@@ -111,6 +113,7 @@ import { catchError } from 'rxjs/operators';
 ```
 
 ## Using the async pipe
+##### Time: 5 min
 
 Introduced with Angular 4, the async pipe provides a way for us to bind observables directly into our templates without manually subscribing in our components.
 
@@ -154,6 +157,7 @@ Pipe operators (using the | char) are functions that can transform data inside a
 * If the component is unloaded, the subscription is automatically unsubscribed.
 
 ## Using RXJS .pipe()
+##### Time: 5 min
 
 RxJS operators can be applied anywhere on Observables to perform operation. We've seen how to add a "catchError" to handle our errors in the Service. We can also add pipe() in our Component to perform any operation required.
 
@@ -162,34 +166,34 @@ RxJS operators can be applied anywhere on Observables to perform operation. We'v
 **src/app/company/company.service.ts**
 
 ```
-    import { tap, finalize } from 'rxjs/operators';
-    
-    ...
-    
-    getCompanies(): Observable<Company[]> {
-        return this.httpClient.get<Company[]>(`${this.API_BASE}/company`)
-          .pipe(
-            tap(x => console.log('TAP - Service', x)),
-            catchError(this.errorHandler)
-          );
-      }
+import { tap, finalize } from 'rxjs/operators';
+
+...
+
+getCompanies(): Observable<Company[]> {
+    return this.httpClient.get<Company[]>(`${this.API_BASE}/company`)
+      .pipe(
+        tap(x => console.log('TAP - Service', x)),
+        catchError(this.errorHandler)
+      );
+  }
 ```
 
 
 **src/app/company/company-list/company-list.component.ts**
 
 ```
-    import { tap, finalize } from 'rxjs/operators';
-    
-    ...
+import { tap, finalize } from 'rxjs/operators';
 
-     getCompanies() {
-        this.companies$ = this.companyService.getCompanies()
-          .pipe(
-            tap(x => console.log('TAP - Component', x)),
-            finalize(() => console.log('Finalize: Complete'))
-          );
-      }
+...
+
+ getCompanies() {
+    this.companies$ = this.companyService.getCompanies()
+      .pipe(
+        tap(x => console.log('TAP - Component', x)),
+        finalize(() => console.log('Finalize: Complete'))
+      );
+  }
 ```
 
 'tap' operator let you Transparently perform actions or side-effects, such as logging. 
@@ -209,11 +213,12 @@ Read this article to know more about subscription management in Angular
 
 > https://github.com/ngneat/until-destroy
 
-My favourite: NgNeat Until-Destroy <3
+My favourite: NgNeat Until-Destroy ❤️
 
 ![](https://firebootcamp.ghost.io/content/images/2023/09/ngNeat.png)
 
 ## EXTRA RxMarbles
+##### Time: 10 min
 
 - RxMarbles (https://rxmarbles.com/) is an awesome website that lets you play with an interactive representation of all Rx Operators
 - It is very useful in understanding how the most common RxJS operators work

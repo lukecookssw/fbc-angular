@@ -1,4 +1,5 @@
 ## Overview
+##### Time: 5min
 
 In this lesson, we will refactor our company table to be a 'presentation' component (also known as a 'dumb' component). 
 
@@ -10,6 +11,7 @@ It will be a child component of the company-list component, and we will pass the
 - Understand the [difference between 'smart' and 'presentational' components](https://blog.angular-university.io/angular-2-smart-components-vs-presentation-components-whats-the-difference-when-to-use-each-and-why/)
 
 ## Create the component using the Angular CLI
+##### Time: 5 min
 
 - Open a command prompt and generate a new component for the company table.
 
@@ -18,7 +20,7 @@ ng generate component company/company-table --skip-tests
 ```
 
 ## Move the company HTML table to the company-table component
-#####TIME: 5 min
+##### Time: 5 min
 
 - Move the Html table from the HTML template for company-list onto the HTML template for company-table
 
@@ -66,6 +68,7 @@ Company table should now look like this:
 ```
 
 ## Update the code for the table-component
+##### Time: 5 min
 
 To refactor the company table from the company-list to the company-table we are going to:
 - Update the component class to be able to receive data 
@@ -163,7 +166,7 @@ export class CompanyTableComponent implements OnInit {
 
 
 ## Update the company-table template to call deleteCompanyClicked
-#####TIME: 5 min
+##### Time: 5 min
 
 // ⚠️ TODO: the next steps are inconsistent: in delete(), do we pass company or company.id?
 // I think deleteCompany(company) below should actually stay deleteCompany(company.id)
@@ -196,8 +199,8 @@ export class CompanyTableComponent implements OnInit {
 ```
 
 
-
 ## Update the html for the company-list component
+##### Time: 5 min
 
 Now that we have moved the company-table out onto a separate control, we need to add that control on the (parent) company-list control.
 
@@ -216,7 +219,8 @@ The company-list component should now look like this:
 <fbc-company-table [companies]="(companies$ | async) || []" (deleteCompanyClicked)="deleteCompany($event)"></fbc-company-table> 
 ```
 
-## EXTRA: Demonstrate OnPush change detection 
+## EXTRA: Demonstrate OnPush change detection
+##### Time: 5 min
 
 Presentational Components are deliberately simple: they contain no logic, receive property values from their `@Input` properties and raise events via their `@Output` `EventEmitter`s.
 

@@ -1,4 +1,5 @@
 ## Overview
+##### Time: 5min
 
 In this lesson, we will introduce routing by moving the company list onto its own route.
 
@@ -6,6 +7,7 @@ In this lesson, we will introduce routing by moving the company list onto its ow
 - How to route to a component
 
 ## Define the routes in app.routes.ts
+##### Time: 5min
 
 - In the 'app' folder the cli auto created us an 'app.routes.ts' file.
 - Add the following code to app.routes.ts
@@ -31,6 +33,7 @@ export const routes: Routes = [
 ```
 
 ## Add a router-outlet to the template
+##### Time: 5min
 
 - Inspect the template for the app component to see the router-outlet (where the routing is embedded).
 - You can remove the hard coded value for the CompanyListComponent
@@ -82,6 +85,7 @@ imports: [CompanyListComponent, RouterModule],
 ```
 
 ## Adding the Edit component
+##### Time: 10min
 
 - Open a command prompt and generate a new company component.
 
@@ -135,6 +139,7 @@ export const routes: Routes = [
 > Note that for the purpose of this demonstration, we decided to have two routes ('/edit' and '/add') leading to the same component, but we could have used '/edit/0' or '/edit/add'
 
 ## Adding a "Not Found"
+##### Time: 10min
 
 - Open a command prompt and generate a new component outside of company.
 
@@ -212,8 +217,6 @@ export const routes: Routes = [
   font-size: 8rem;
   color: #333;
 }
-
-
 ```
 
 - Try out opening a random URL e.g. `http://localhost:4200/compa` to see your Not Found page
