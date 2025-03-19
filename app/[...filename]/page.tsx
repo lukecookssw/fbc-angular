@@ -6,15 +6,12 @@ export async function generateStaticParams() {
   try {
     const contentDir = './content/page/';
     const files = await glob(`${contentDir}**/*.mdx`);
-    console.log('🤐🤐🤐')
-    console.log(files);
     const files2 = files
     .filter((file) => !file.endsWith('index.mdx'))
     .map((file) => {
       const path = file.substring(contentDir.length, file.length - 4); // Remove "./content/docs/" and ".mdx"
       return { filename: path.split('/') };
     });
-    console.log(files2);
     return files2;
       
   } catch (error) {
@@ -39,8 +36,6 @@ export default async function Page({
 }: {
   params: { filename: string[] };
 }) {
-  console.log('🤔🤔🤔 slugs')
-  console.log(params.filename);
   const filename = params.filename.join('/');
   const data = await client.queries.page({
     relativePath: `${filename}.mdx`,
