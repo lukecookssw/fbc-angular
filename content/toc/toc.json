@@ -49,11 +49,11 @@
       "page": "content/page/fundamentals/counter-app-introducing-angular-http-client.mdx"
     },
     {
-      "title": "Angular - Introduction",
+      "title": "RxJS and Observables - RxJS Introduction",
       "page": "content/page/rxjs-and-observables/introduction.mdx"
     },
     {
-      "title": "Angular - RxJS in Angular",
+      "title": "RxJS and Observables - RxJS in Angular",
       "page": "content/page/rxjs-and-observables/rxjs-in-angular.mdx"
     },
     {
