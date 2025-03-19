@@ -1,0 +1,153 @@
+## Overview
+##### Time: 5min
+
+In this lesson, we will look using the ngrx effects library to manage side effects. You can read more about effects here https://github.com/ngrx/effects/blob/master/docs/intro.md.
+
+### Learning Outcomes
+- How to use ngrx effects
+
+## Install effects library
+##### Time: 5min
+
+- npm install the effects library
+
+```
+npm install @ngrx/effects --save
+```
+
+## Add CompanyEffects
+##### Time: 10min
+
+- Add a new folder call ```effects``` in the ```app``` folder.
+- Add a ```CompanyEffects``` effect.
+
+***src/app/effects/company.effects.ts***
+```
+import { Injectable } from '@angular/core';
+import { CompanyService } from '../company/company.service';
+import { Actions, Effect, toPayload } from '@ngrx/effects';
+import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs/observable/of';
+import * as companyActions from './../actions/company.actions';
+
+@Injectable()
+export class CompanyEffects {
+
+  @Effect() loadCompanies$ = this.actions$
+    .ofType(companyActions.LOAD_COMPANIES)
+    .switchMap(() => {
+      return this.companyService.loadCompanies()
+        .map(companies => (new companyActions.LoadCompaniesSuccess(companies)))
+        .catch(() => of(new companyActions.LoadCompaniesError()));
+    });
+
+  constructor(
+    private actions$: Actions,
+    private companyService: CompanyService
+  ) { }
+}
+
+```
+
+- Add the ```switchMap``` operator to the list of ngrx operators in ```ngrx-extensions.ts```
+
+***src/app/core/rxjs-extensions.ts***
+```
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/observable/throw';
+```
+
+## Update the ActionCreators
+##### Time: 5min
+
+- Add LOAD_COMPANIES to the action types.
+
+***src/app/actions/company.actions.ts***
+```
+import { Action } from '@ngrx/store';
+import { Company } from '../company/company';
+
+export const LOAD_COMPANIES = '[Companies] Load';
+export const LOAD_COMPANIES_SUCCESS = '[Companies] Load Success';
+export const LOAD_COMPANIES_ERROR = '[Companies] Load Error';
+export const DELETE_COMPANY = '[Companies] Delete';
+
+export class LoadCompanies implements Action {
+  readonly type = LOAD_COMPANIES;
+}
+
+export class LoadCompaniesSuccess implements Action {
+  readonly type = LOAD_COMPANIES_SUCCESS;
+  constructor(public payload: Company[]) { }
+}
+
+export class LoadCompaniesError implements Action {
+  readonly type = LOAD_COMPANIES_ERROR;
+}
+
+export class DeletCompany implements Action {
+  readonly type = DELETE_COMPANY;
+  constructor(public payload: number) { }
+}
+
+export type All
+  = LoadCompanies
+  | LoadCompaniesSuccess
+  | LoadCompaniesError
+  | DeletCompany;
+
+
+```
+
+## Register the CompanyEffects in the AppModule
+##### Time: 5min
+
+- register ```CompanyEffects``` in the ```AppModule```.
+
+***src/app/app.modules.ts***
+
+```
+import { EffectsModule } from "@ngrx/effects";
+import { CompanyEffects } from './effects/company.effects';
+```
+
+```
+ imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    StoreModule.forRoot({ companies: companyReducer }),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25
+    }),
+    EffectsModule.forRoot([CompanyEffects])
+  ],
+```
+
+## Update the CompanyService
+##### Time: 5min
+
+- Make the loadCompanies method return an observable.
+
+***src/app/company/company.service.ts***
+
+```
+  loadCompanies(): Observable<Company[]> {
+    return this.httpClient.get<Company[]>(`${this.API_BASE}/company`);
+  }
+```
+
+## Change CompanyListComponent to dispatch an action
+##### Time: 5min
+
+- Change CompanyListComponent to dispatch an action vs call the service by replacing the ```loadCompanies( )``` method.
+
+***src/app/company/company-list.component.ts***
+```
+loadCompanies() {
+  this.store.dispatch(new companyActions.loadCompanies());
+}
+```

@@ -1,0 +1,64 @@
+
+## Overview
+In this lesson, we will use reactive forms to build the functionality to allow us to add new customers to the database.
+
+## Add a form to the `edit-company.component.ts` file
+
+```
+companyFormGroup = new FormGroup({
+    name: new FormControl('', Validators.required),
+    email: new FormControl(''),
+    phone: new FormControl(''),
+  })
+```
+
+## Add the `saveCompany()` method
+
+```
+saveCompany() {
+    const company = this.companyFormGroup.value as any as Company; // TODO: Fix this casting
+    this.companyService.addCompany(company).subscribe((company) => {
+      this.router.navigate(['/company/list']);
+    });
+  }
+```
+
+## Watch video about TypeScript `Partial` class
+**TODO: Add link to video**
+
+### Map from a Reactive Form to Company
+
+
+# NGRX
+1. Add a bunch of packages
+
+`ng add @ngrx/schematics@latest`
+
+`ng add ngrx/store`
+
+`ng add ngrx/effects@latest`
+
+`ng add ngrx/entity@latest`
+
+`ng add ngrx/dev-tools@latest`
+
+2. Set up your store
+`ng generate store State --root --module app.config.ts --state-path +state`
+
+3. Clean up your imports in `app.config.ts`
+
+4. `provideStore(reducers, { metaReducers }),`
+
+5. `ng g reducer company --reducers --index.ts`
+
+6. `ng g action Company`
+
+7. `ng g effect Company --root`
+
+8. Inject your `CompanyService` into the `CompanyEffects` class
+
+9. Create your effect `loadCompanies$ = createEffect(() => this.actions$.pipe(ofType(CompanyActions.loadCompanies)))`
+
+`switchMap(() => this.companyService.etCompanies()`
+
+...etc. (grab the code from `company.effects.ts`)
