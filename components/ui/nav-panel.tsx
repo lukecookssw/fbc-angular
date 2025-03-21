@@ -33,15 +33,17 @@ const NavPanel: React.FC<NavPanelProps> = ({ routes }) => {
         </Link>
       </div>
       <ol className="flex flex-col space-y-4">
-        {routes?.map((route) => (
+        {routes?.map((route) => {
+          console.log(routes);
+          return (
           <li key={route.route} className={`hover:text-red-500 ${
             currentPath === route.route ? "active" : ""
           }`}>
-            <Link href={route.route}>
+            <Link href={`/${route.route}`}>
               {route.title}
             </Link>
           </li>
-        ))}
+          )})}
       </ol>
     </nav>
   );

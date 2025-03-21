@@ -1,0 +1,334 @@
+## Overview
+##### Time: 5min
+
+In this lesson, we will build on the work we did in the previous lesson to allow editing companies.
+
+## Add navigation to the 'Edit' button
+##### Time: 1 min
+
+- Add the routerLink to the edit button on the company table.
+
+***src/app/company/company-table/company-table.component.html***
+```
+<button class="btn btn-default" [routerLink]="['/company/edit', company.id]">Edit</button>
+```
+
+
+## Implement the getCompany logic
+##### Time: 5 min
+
+- If we determine from the route params that we are editting an existing component 
+- load the component from the database.
+
+***src/app/company/company-edit/company-edit.component.ts***
+
+```
+  ngOnInit() {
+    this.companyId = this.activatedRoute.snapshot.params['id'];
+    this.isNewCompany = !this.companyId;
+    this.buildForm();
+
+    if (!this.isNewCompany) {
+      this.getCompany();
+    }
+  }
+
+```
+
+- Update the company service to be able to query a single company.
+
+***src/app/company/company.service.ts***
+
+```
+  getCompany(companyId: number): Observable<Company> {
+    return this.httpClient.get<Company>(`${this.API_BASE}/company/${companyId}`)
+      .pipe(catchError(e => this.errorHandler<Company>(e)));
+  }
+```
+
+## Implement the saveCompany logic
+##### Time: 5 min
+
+- Update the component to call updateCompany instead of addCompany if the company already exists.
+
+***src/app/company/company-edit/company-edit.component.ts***
+
+```
+  saveCompany(): void {
+    if (this.isNewCompany) {
+      this.companyService
+        .addCompany(this.companyForm.value)
+        .subscribe(() => this.router.navigateByUrl('/company/list'));
+    } else {
+      const newCompany = { ...this.companyForm.value, id: this.companyId };
+      this.companyService
+        .updateCompany(newCompany)
+        .subscribe(() => this.router.navigateByUrl('/company/list'));
+    }
+  }
+```
+
+- Update the company service to contain a method to update a company.
+
+***src/app/company/company.service.ts***
+
+```
+  updateCompany(company: Company): Observable<Company> {
+    return this.httpClient.put<Company>(
+      `${this.API_BASE}/company/${company.id}`, company,
+      { headers: new HttpHeaders().set('content-type', 'application/json') }
+    ).pipe(catchError(e => this.errorHandler<Company>(e)));
+  }
+```
+
+## EXTRA : Dynamic Reactive Forms
+##### Time: 10min
+Reactive Forms make dynamic validation easy to implement. In this section, we will see a very simple example of dynamic validation for the Phone number.
+
+### Add a checkbox to the Edit form
+
+***src\app\company\company-edit\company-edit.component.html***
+```
+    <div class="form-check">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        value=""
+        id="checkPhone"
+        formControlName="checkPhone"
+      />
+      <label class="form-check-label" for="checkPhone"> Add phone number </label>
+    </div>
+    
+    <div class="form-group">
+      <label for="phone">Phone</label>
+      <input type="text" class="form-control" name="phone" formControlName="phone" />
+    </div>
+    <div *ngIf="companyForm.get('phone')!.hasError('required')" class="alert alert-danger">
+        Phone number is required
+    </div>
+```
+
+***src\app\companycompany-edit\company-edit.component.ts***
+```
+  buildForm(){
+    this.companyForm = this.formBuilder.group({
+      name: ['', Validators.required],
+      email: [''],
+      phone: [''],
+      checkPhone: []
+    });
+  }
+```
+
+- Add checkbox control to the Form
+- Add the checkPhone property to the form object
+
+### Add the logic for validation
+Reactive Forms controls exposes useful Observables, such as "valueChanges", which emits new values everytime it changes.
+
+***src\app\companycompany-edit\company-edit.component.ts***
+```
+...
+    this.companyForm.get('checkPhone')!.valueChanges
+    .subscribe(value => {
+      if(value){
+        this.companyForm.get('phone')!.setValidators(Validators.required)
+      }else{
+        this.companyForm.get('phone')!.clearValidators();
+      }
+      this.companyForm.get('phone')!.updateValueAndValidity();
+    });
+...
+```
+
+- Subscribe to the valueChanges observable
+- if 'value' is true (checkbox ticked), set 'Required' validator on 'phone' control
+- if 'value' is false, reset validators and update validity
+
+## EXTRA 2 : Custom Form Controls
+
+So far we have shown how to bind form controls to `<input>` elements - but what if we want more control over the UI for a form control? We can create our own components and turn them into form controls by implementing the `ControlValueAccessor` interface.
+
+First create a new component:
+```
+ng g component controls/addressForm --skip-tests 
+```
+
+Edit the component code to implement 'NgValueAccessor'
+***src/app/controls/address-form/address-form.component.ts***
+```
+@Component({
+  selector: 'fbc-address-form',
+  templateUrl: './address.component.html',
+  styleUrls: ['./address.component.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      multi: true,
+      useExisting: AddressFormComponent,
+    },
+    {
+      provide: NG_VALIDATORS,
+      multi: true,
+      useExisting: AddressFormComponent,
+    },
+  ],
+})
+export class AddressFormComponent
+  implements ControlValueAccessor, OnDestroy, Validator
+{
+  @Input()
+  legend: string = '';
+
+  form: FormGroup = this.fb.group({
+    addressLine1: [null, [Validators.required]],
+    addressLine2: [null, [Validators.required]],
+    city: [null, [Validators.required]],
+    postCode: [null, [Validators.required]],
+  });
+
+  onTouched: Function = () => {};
+
+  onChangeSubs: Subscription[] = [];
+
+  constructor(private fb: FormBuilder) {}
+
+  ngOnDestroy() {
+    for (let sub of this.onChangeSubs) {
+      sub.unsubscribe();
+    }
+  }
+
+  registerOnChange(onChange: any) {
+    const sub = this.form.valueChanges.subscribe(onChange);
+    this.onChangeSubs.push(sub);
+  }
+
+  registerOnTouched(onTouched: Function) {
+    this.onTouched = onTouched;
+  }
+
+  setDisabledState(disabled: boolean) {
+    if (disabled) {
+      this.form.disable();
+    } else {
+      this.form.enable();
+    }
+  }
+
+  writeValue(value: any) {
+    if (value) {
+      this.form.setValue(value, { emitEvent: false });
+    }
+  }
+
+  validate(control: AbstractControl) {
+    if (this.form.valid) {
+      return null;
+    }
+
+    let errors: any = {};
+
+    errors = this.addControlErrors(errors, 'addressLine1');
+    errors = this.addControlErrors(errors, 'addressLine2');
+    errors = this.addControlErrors(errors, 'postCode');
+    errors = this.addControlErrors(errors, 'city');
+
+    return errors;
+  }
+
+  addControlErrors(allErrors: any, controlName: string) {
+    const errors = { ...allErrors };
+
+    const controlErrors = this.form.controls[controlName].errors;
+
+    if (controlErrors) {
+      errors[controlName] = controlErrors;
+    }
+
+    return errors;
+  }
+}
+
+```
+
+
+Edit the template to diplay the label and `<input>` elements
+***src/app/controls/address-form/address-form.component.html***
+```
+
+<fieldset [formGroup]="form">
+  <legend>{{ legend }}</legend>
+
+  <div class="form-group">
+    <label for="addressLine1">Address Line 1</label>
+    <input
+      class="form-control"
+      formControlName="addressLine1"
+      (blur)="onTouched()"
+    />
+  </div>
+  
+  <div class="form-group">
+    <label for="addressLine2">Address Line 2</label>
+    <input
+      class="form-control"
+      formControlName="addressLine2"
+      (blur)="onTouched()"
+    />
+  </div>
+  
+  <div class="form-group">
+    <label for="city">City</label>
+    <input class="form-control" formControlName="city" (blur)="onTouched()" />
+  </div>
+  
+  <div class="form-group">
+    <label for="postCode">Post Code</label>
+    <input
+      class="form-control"
+      formControlName="postCode"
+      (blur)="onTouched()"
+    />
+  </div>
+</fieldset>
+
+```
+
+Add an `address` form control to the form group
+***src/app/company/company-edit/company-edit.component.ts***
+```
+  buildForm() {
+    this.companyForm = this.fb.group({
+      name: ['', Validators.required],
+      phone: [''],
+      checkPhone: [],
+      email: [''],
+      address: [''],
+    });
+```
+
+Finally, change the edit form to use our new control. 
+***src/app/company/company-edit/company-edit.component.html***
+```
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input
+      type="text"
+      class="form-control"
+      name="email"
+      formControlName="email"
+    />
+  </div>
+
+    <fbc-address-form legend="Address" formControlName="address"></fbc-address-form>
+
+    <div class="form-group">
+      <button (click)="saveCompany()" [disabled]="!companyForm.valid" class="btn btn-default">Submit</button>
+    </div>
+```
+
+With this approach we move the 'boiler plate' markup for displaying the form layout inside the control - which simplifies the amout of code required to write the form itself. This technique is recommended for apps where there are lots of forms or there there are big forms.
+
+When using `ControlValueAccessor` our component can be bound to reative forms via `formControlName` or `[formControl]` or Template-Driven Forms via `[(ngModel)]`

@@ -5,36 +5,164 @@
       "page": "content/page/prerequisites.mdx"
     },
     {
-      "title": "Angular CLI",
-      "page": "content/page/angular-cli.mdx"
+      "title": "Getting Ready - How to setup your machine",
+      "page": "content/page/getting-ready/how-to-setup-your-machine.mdx"
     },
     {
-      "title": "Generating components",
-      "page": "content/page/generating-components.mdx"
+      "title": "Getting Ready - Intro to Visual Studio Code",
+      "page": "content/page/getting-ready/intro-to-visual-studio-code.mdx"
     },
     {
-      "title": "Third-party dependencies",
-      "page": "content/page/third-party-dependencies-and-styling.mdx"
+      "title": "Getting Ready - Installing the Angular CLI",
+      "page": "content/page/getting-ready/installing-the-angular-cli.mdx"
     },
     {
-      "title": "Angular services",
-      "page": "content/page/angular-services.mdx"
+      "title": "Getting Ready - Visual Studio Code Extensions",
+      "page": "content/page/getting-ready/visual-studio-code-extensions.mdx"
     },
     {
-      "title": "Http client module",
-      "page": "content/page/http-client-module.mdx"
+      "title": "Fundamentals - Introduction to Angular",
+      "page": "content/page/fundamentals/introduction-to-angular.mdx"
     },
     {
-      "title": "Delete companies",
-      "page": "content/page/delete-companies.mdx"
+      "title": "Fundamentals - Intro to the Angular CLI",
+      "page": "content/page/fundamentals/intro-to-the-angular-cli.mdx"
     },
     {
-      "title": "Component communication",
-      "page": "content/page/component-communication.mdx"
+      "title": "Fundamentals - Hello World App - Your First Component",
+      "page": "content/page/fundamentals/hello-world-app-your-first-component.mdx"
     },
     {
-      "title": "Routing",
-      "page": "content/page/routing.mdx"
+      "title": "Fundamentals - Hello World App - Two-way Data-binding and Adding Components",
+      "page": "content/page/fundamentals/hello-world-app-two-way-data-binding-and-adding-components.mdx"
+    },
+    {
+      "title": "Fundamentals - Counter App - Communicating between Components",
+      "page": "content/page/fundamentals/counter-app-communicating-between-components.mdx"
+    },
+    {
+      "title": "Fundamentals - Counter App - Introducing Services",
+      "page": "content/page/fundamentals/counter-app-introducing-services.mdx"
+    },
+    {
+      "title": "Fundamentals - Counter App - Introducing Angular Http Client",
+      "page": "content/page/fundamentals/counter-app-introducing-angular-http-client.mdx"
+    },
+    {
+      "title": "RxJS and Observables - RxJS Introduction",
+      "page": "content/page/rxjs-and-observables/introduction.mdx"
+    },
+    {
+      "title": "RxJS and Observables - RxJS in Angular",
+      "page": "content/page/rxjs-and-observables/rxjs-in-angular.mdx"
+    },
+    {
+      "title": "CRM app - Angular CLI",
+      "page": "content/page/crm-app/creating-an-angular-cli-project.mdx"
+    },
+    {
+      "title": "CRM app - Generating components",
+      "page": "content/page/crm-app/generating-components.mdx"
+    },
+    {
+      "title": "CRM app - Third-party dependencies",
+      "page": "content/page/crm-app/third-party-dependencies-and-styling.mdx"
+    },
+    {
+      "title": "CRM app - Angular services",
+      "page": "content/page/crm-app/angular-services.mdx"
+    },
+    {
+      "title": "CRM app - Http client module",
+      "page": "content/page/crm-app/http-client-module.mdx"
+    },
+    {
+      "title": "CRM app - Delete companies",
+      "page": "content/page/crm-app/delete-companies.mdx"
+    },
+    {
+      "title": "CRM app - Component communication",
+      "page": "content/page/crm-app/component-communication.mdx"
+    },
+    {
+      "title": "CRM app - Routing",
+      "page": "content/page/crm-app/routing.mdx"
+    },
+    {
+      "title": "CRM app - Reactive forms - Add company",
+      "page": "content/page/crm-app/reactive-forms-add-company.mdx"
+    },
+    {
+      "title": "CRM app - Reactive forms - Edit company",
+      "page": "content/page/crm-app/reactive-forms-edit-company.mdx"
+    },
+    {
+      "title": "CRM app - State management",
+      "page": "content/page/crm-app/state-management.mdx"
+    },
+    {
+      "title": "CRM app - Modules and code splitting",
+      "page": "content/page/crm-app/modules-and-code-splitting.mdx"
+    },
+    {
+      "title": "CRM app - Testing",
+      "page": "content/page/crm-app/testing.mdx"
+    },
+    {
+      "title": "CRM app - Creating the testing app",
+      "page": "content/page/testing/creating-the-testing-app.mdx"
+    },
+    {
+      "title": "Testing - Building the testing app",
+      "page": "content/page/testing/building-the-testing-app.mdx"
+    },
+    {
+      "title": "Testing - Jasmine JavaScript testing framework",
+      "page": "content/page/testing/jasmine-javascript-testing-framework.mdx"
+    },
+    {
+      "title": "Testing - Faking dependencies",
+      "page": "content/page/testing/faking-dependencies.mdx"
+    },
+    {
+      "title": "Testing - TestBed API",
+      "page": "content/page/testing/testbed-api.mdx"
+    },
+    {
+      "title": "Testing - Async and fakeAsync",
+      "page": "content/page/testing/async-and-fakeasync.mdx"
+    },
+    {
+      "title": "Testing - E2E tests with Protractor",
+      "page": "content/page/testing/e2e-tests-with-protractor.mdx"
+    },
+    {
+      "title": "Testing - Testing services",
+      "page": "content/page/testing/testing-services.mdx"
+    },
+    {
+      "title": "NgRx - Introduction",
+      "page": "content/page/ngrx/introduction.mdx"
+    },
+    {
+      "title": "NgRx - Installation and reducers",
+      "page": "content/page/ngrx/installation-and-reducers.mdx"
+    },
+    {
+      "title": "NgRx - Redux dev tools",
+      "page": "content/page/ngrx/redux-dev-tools.mdx"
+    },
+    {
+      "title": "NgRx - Action creators",
+      "page": "content/page/ngrx/action-creators.mdx"
+    },
+    {
+      "title": "NgRx - Effects",
+      "page": "content/page/ngrx/effects.mdx"
+    },
+    {
+      "title": "NgRx - Delete companies",
+      "page": "content/page/ngrx/delete-companies.mdx"
     }
   ]
 }
